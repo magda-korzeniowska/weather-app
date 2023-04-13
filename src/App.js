@@ -3,6 +3,9 @@ import './App.css';
 
 function App() {
   const [currLocation, setCurrLocation] = useState({});
+  const [data, setData] = useState([]);
+  const apiURL = process.env.REACT_APP_API_URL;
+  const apiKey = process.env.REACT_APP_API_KEY;
 
   useEffect(() => {
     getLocation();
@@ -13,10 +16,23 @@ function App() {
       const { latitude, longitude } = position.coords;
       setCurrLocation({ latitude, longitude });
     });
-    await fetch(`https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}`)
+    await fetch(
+      `${apiURL}/weather?lat=${currLocation.latitude}&lon=${currLocation.longitude}&APPID=${apiKey}&units=metric`
+    )
+      .then((res) => res.json())
+      .then((result) => {
+        setData(result);
+        console.log(result)
+      })
   };
 
-  return <div className='App'>mapa: {currLocation.latitude} {currLocation.longitude}</div>;
+  return (
+    <div className='App'>
+      {data.main && (
+        <p>pogoda {data.main.temp}</p>
+      )}
+    </div>
+  );
 }
 
 export default App;
