@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import UilReact from '@iconscout/react-unicons/icons/uil-react'
 import './App.css';
+import MainLocations from './components/MainLocations';
 
 function App() {
   const [currLocation, setCurrLocation] = useState({});
@@ -28,12 +29,11 @@ function App() {
   };
 
   return (
-    <div className='App'>
-      <h1>hello</h1>
-      <UilReact />
-      {data.main && (
+    <div className='mx-auto mt-4 py-5 px-32 bg-gradient-to-br from-cyan-700 to-blue-700 h-fit shadow-xl shadow-gray-400 max-w-screen-lg'>
+      {/* {data.main && (
         <p>pogoda {data.main.temp}</p>
-      )}
+      )} */}
+      <MainLocations />
     </div>
   );
 }
