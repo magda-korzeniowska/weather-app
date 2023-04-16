@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import UilReact from '@iconscout/react-unicons/icons/uil-react'
 import './App.css';
+import InputBar from './components/InputBar';
 import MainLocations from './components/MainLocations';
 
 function App() {
@@ -34,6 +34,7 @@ function App() {
         <p>pogoda {data.main.temp}</p>
       )} */}
       <MainLocations />
+      <InputBarg />
     </div>
   );
 }
