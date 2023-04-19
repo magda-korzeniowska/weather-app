@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import InputBar from './components/InputBar';
 import MainLocations from './components/MainLocations';
+import TimeAndLocation from './components/TimeAndLocation';
+import Weather from './components/Weather';
 
 function App() {
   const [currLocation, setCurrLocation] = useState({});
@@ -34,7 +36,9 @@ function App() {
         <p>pogoda {data.main.temp}</p>
       )} */}
       <MainLocations />
-      <InputBarg />
+      <InputBar />
+      <TimeAndLocation /> 
+      <Weather />
     </div>
   );
 }
