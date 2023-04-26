@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
+import Forecast from './components/Forecast';
 import InputBar from './components/InputBar';
 import MainLocations from './components/MainLocations';
 import TimeAndLocation from './components/TimeAndLocation';
@@ -39,6 +40,7 @@ function App() {
       <InputBar />
       <TimeAndLocation /> 
       <Weather />
+      <Forecast />
     </div>
   );
 }
