@@ -5,6 +5,8 @@ import InputBar from './components/InputBar';
 import MainLocations from './components/MainLocations';
 import TimeAndLocation from './components/TimeAndLocation';
 import Weather from './components/Weather';
+import getFormattedData from './utils/weatherService';
+
 
 function App() {
   const [location, setLocation] = useState('');
@@ -30,23 +32,30 @@ function App() {
   };
 
   const fetchWeather = async () => {
-    await fetch(
-      // `${apiURL}/data/2.5/weather?lat=${location.latitude}&lon=${location.longitude}&APPID=${apiKey}&units=metric`
-      `${apiURL}/data/2.5/weather?q=${location}&APPID=${apiKey}&units=metric`
-    )
-      .then((res) => res.json())
-      .then((result) => {
-        setData(result);
-        console.log(result);
-      })
-      .catch((err) => err.message);
-    setLocation('');
+    const data = await getFormattedData({q: 'london'});
+    console.log(data)
+  }
 
-    // navigator.geolocation.getCurrentPosition((position) => {
-    //   const { latitude, longitude } = position.coords;
-    //   setLocation({ latitude, longitude });
-    // });
-  };
+  fetchWeather()
+
+  // const fetchWeather = async () => {
+  //   await fetch(
+  //     // `${apiURL}/data/2.5/weather?lat=${location.latitude}&lon=${location.longitude}&APPID=${apiKey}&units=metric`
+  //     `${apiURL}/data/2.5/weather?q=${location}&APPID=${apiKey}&units=metric`
+  //   )
+  //     .then((res) => res.json())
+  //     .then((result) => {
+  //       setData(result);
+  //       console.log(result);
+  //     })
+  //     .catch((err) => err.message);
+  //   setLocation('');
+
+  //   // navigator.geolocation.getCurrentPosition((position) => {
+  //   //   const { latitude, longitude } = position.coords;
+  //   //   setLocation({ latitude, longitude });
+  //   // });
+  // };
 
   // 'https://api.openweathermap.org/data/2.5'
   //https://api.openweathermap.org/geo/1.0/direct?q=Warszawa&appid=fd82c2969784e8b06b8a11679b9aa30d
@@ -69,7 +78,7 @@ function App() {
         location={location}
         handleKeyDown={handleKeyDown}
         handleLocationChange={handleLocationChange}
-        getWeather={fetchWeather}
+        fetchWeather={fetchWeather}
         handleLocationSearch={handleLocationSearch}
       />
       <TimeAndLocation />
