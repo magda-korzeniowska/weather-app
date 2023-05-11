@@ -83,10 +83,10 @@ const formatToLocalTime = (
     .toFormat(format);
 };
 
-const weatherIcon = (iconCode) => {
+const getWeatherIcon = (iconCode) => {
   return `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
 };
 
 export default getFormattedData;
 
-export { formatToLocalTime, weatherIcon };
+export { formatToLocalTime, getWeatherIcon };

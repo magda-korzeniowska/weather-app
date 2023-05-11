@@ -1,7 +1,9 @@
 import React from 'react';
 import { formatToLocalTime } from '../utils/weatherService';
 
-const TimeAndLocation = ({ weatherData: { dt, timezone, name, country } }) => {
+const TimeAndLocation = ({ weatherData }) => {
+
+  const {dt, timezone, name, country} = weatherData;
   return (
     <div className='my-6 flex flex-col items-center justify-center'>
       <p className='text-xl font-extralight text-white'>

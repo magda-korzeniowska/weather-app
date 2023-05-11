@@ -9,7 +9,7 @@ import getFormattedData, { formatToLocalTime } from './utils/weatherService';
 
 function App() {
   const [query, setQuery] = useState({ q: 'los angeles' });
-  const [unit, setUnit] = useState('metric');
+  const [units, setUnits] = useState('metric');
   const [weatherData, setWeatherData] = useState(null);
 
   const apiURL = process.env.REACT_APP_API_URL;
@@ -17,12 +17,12 @@ function App() {
 
   useEffect(() => {
     const fetchWeather = async () => {
-      await getFormattedData({ ...query, unit }).then((data) =>
+      await getFormattedData({ ...query, units }).then((data) =>
         setWeatherData(data)
       );
     };
     fetchWeather();
-  }, [query, unit]);
+  }, [query, units]);
 
   // const handleLocationChange = (e) => {
   //   setLocation(e.target.value);
@@ -86,8 +86,9 @@ function App() {
 
       {weatherData && (
         <>
+          {console.log(weatherData)}
           <TimeAndLocation weatherData={weatherData} />
-          <Weather />
+          <Weather weatherData={weatherData}/>
           <Forecast />
         </>
       )}
