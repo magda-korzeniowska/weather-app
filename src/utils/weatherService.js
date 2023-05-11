@@ -78,7 +78,9 @@ const formatToLocalTime = (
   zone,
   format = "cccc, dd LLL yyyy' | Local time: 'hh:mm a"
 ) => {
-  return DateTime.fromSeconds(secs).setZone(zone).toFormat(format);
+  return DateTime.fromSeconds(secs)
+    .setZone(zone/60)
+    .toFormat(format);
 };
 
 const weatherIcon = (iconCode) => {

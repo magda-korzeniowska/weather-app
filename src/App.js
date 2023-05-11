@@ -5,38 +5,41 @@ import InputBar from './components/InputBar';
 import MainLocations from './components/MainLocations';
 import TimeAndLocation from './components/TimeAndLocation';
 import Weather from './components/Weather';
-import getFormattedData from './utils/weatherService';
-
+import getFormattedData, { formatToLocalTime } from './utils/weatherService';
 
 function App() {
-  const [location, setLocation] = useState('');
-  const [data, setData] = useState({});
+  const [query, setQuery] = useState({ q: 'los angeles' });
+  const [unit, setUnit] = useState('metric');
+  const [weatherData, setWeatherData] = useState(null);
+
   const apiURL = process.env.REACT_APP_API_URL;
   const apiKey = process.env.REACT_APP_API_KEY;
 
-  const handleLocationChange = (e) => {
-    setLocation(e.target.value);
-  };
+  useEffect(() => {
+    const fetchWeather = async () => {
+      await getFormattedData({ ...query, unit }).then((data) =>
+        setWeatherData(data)
+      );
+    };
+    fetchWeather();
+  }, [query, unit]);
 
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      fetchWeather();
-    }
-  };
+  // const handleLocationChange = (e) => {
+  //   setLocation(e.target.value);
+  // };
 
-  const handleLocationSearch = () => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      const { latitude, longitude } = position.coords;
-      setLocation({ latitude, longitude });
-    });
-  };
+  // const handleKeyDown = (e) => {
+  //   if (e.key === 'Enter') {
+  //     fetchWeather();
+  //   }
+  // };
 
-  const fetchWeather = async () => {
-    const data = await getFormattedData({q: 'london'});
-    console.log(data)
-  }
-
-  fetchWeather()
+  // const handleLocationSearch = () => {
+  //   navigator.geolocation.getCurrentPosition((position) => {
+  //     const { latitude, longitude } = position.coords;
+  //     setLocation({ latitude, longitude });
+  //   });
+  // };
 
   // const fetchWeather = async () => {
   //   await fetch(
@@ -72,18 +75,22 @@ function App() {
 
   return (
     <div className='mx-auto mt-4 h-fit max-w-screen-lg bg-gradient-to-br from-cyan-700 to-blue-700 px-32 py-5 shadow-xl shadow-gray-400'>
-      {console.log(location)}
       <MainLocations />
       <InputBar
-        location={location}
-        handleKeyDown={handleKeyDown}
-        handleLocationChange={handleLocationChange}
-        fetchWeather={fetchWeather}
-        handleLocationSearch={handleLocationSearch}
+      // location={location}
+      // handleKeyDown={handleKeyDown}
+      // handleLocationChange={handleLocationChange}
+      // fetchWeather={fetchWeather}
+      // handleLocationSearch={handleLocationSearch}
       />
-      <TimeAndLocation />
-      <Weather />
-      <Forecast />
+
+      {weatherData && (
+        <>
+          <TimeAndLocation weatherData={weatherData} />
+          <Weather />
+          <Forecast />
+        </>
+      )}
     </div>
   );
 }
