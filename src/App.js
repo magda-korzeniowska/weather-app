@@ -8,12 +8,12 @@ import Weather from './components/Weather';
 import getFormattedData, { formatToLocalTime } from './utils/weatherService';
 
 function App() {
-  const [query, setQuery] = useState({ q: 'los angeles' });
+  const [query, setQuery] = useState({ q: 'bydgoszcz' });
   const [units, setUnits] = useState('metric');
   const [weatherData, setWeatherData] = useState(null);
 
-  const apiURL = process.env.REACT_APP_API_URL;
-  const apiKey = process.env.REACT_APP_API_KEY;
+  // const apiURL = process.env.REACT_APP_API_URL;
+  // const apiKey = process.env.REACT_APP_API_KEY;
 
   useEffect(() => {
     const fetchWeather = async () => {
@@ -88,8 +88,12 @@ function App() {
         <>
           {console.log(weatherData)}
           <TimeAndLocation weatherData={weatherData} />
-          <Weather weatherData={weatherData}/>
-          <Forecast />
+          <Weather weatherData={weatherData} />
+          <Forecast
+            title='3-HOUR FORECAST FOR TODAY'
+            weatherData={weatherData.hourly}
+          />
+          <Forecast title='DAILY FORECAST' weatherData={weatherData.daily} />
         </>
       )}
     </div>

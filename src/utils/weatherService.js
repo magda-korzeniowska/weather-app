@@ -3,8 +3,8 @@ import { DateTime } from 'luxon';
 const apiBaseURL = process.env.REACT_APP_API_URL;
 const apiKey = process.env.REACT_APP_API_KEY;
 
-const getWeather = (type, searchParams) => {
-  const url = new URL(`${apiBaseURL}/data/2.5/${type}`);
+const getWeather = (dataType, searchParams) => {
+  const url = new URL(`${apiBaseURL}/data/2.5/${dataType}`);
   url.search = new URLSearchParams({ ...searchParams, appid: apiKey });
   return fetch(url)
     .then((res) => res.json())
@@ -53,13 +53,23 @@ const formatForecastData = (data) => {
       icon: i.weather[0].icon,
     };
   });
-  // TO DO: let daily;
-  return { timezone, hourly };
+
+  let daily = data.list
+    .filter((i) => i.dt_txt.includes('15:00:00'))
+    .map((i) => {
+      return {
+        title: formatToLocalTime(i.dt, timezone, 'dd LLL'),
+        temp: i.main.temp,
+        icon: i.weather[0].icon,
+      };
+    });
+
+  return { timezone, hourly, daily };
 };
 
 const getFormattedData = async (searchParams) => {
   const formattedCurrWeather = await getWeather('weather', searchParams).then(
-    formatCurrWeather
+    (data) => formatCurrWeather(data)
   );
 
   const { lat, lon } = formattedCurrWeather;
@@ -79,7 +89,7 @@ const formatToLocalTime = (
   format = "cccc, dd LLL yyyy' | Local time: 'hh:mm a"
 ) => {
   return DateTime.fromSeconds(secs)
-    .setZone(zone/60)
+    .setZone(zone / 60)
     .toFormat(format);
 };
 

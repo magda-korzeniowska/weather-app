@@ -1,37 +1,22 @@
 import React from 'react';
-import { UilClouds } from '@iconscout/react-unicons';
+import { getWeatherIcon } from '../utils/weatherService';
 
-const Forecast = () => {
+const Forecast = ({ title, weatherData }) => {
   return (
     <div className='mt-6 flex flex-col items-start justify-center'>
-      <p className='font-medium uppercase text-white'>Forecast</p>
+      <p className='font-medium uppercase text-white'>{title}</p>
       <hr className='my-2 w-full' />
       <div className='flex w-full justify-between'>
-        <div className='flex flex-col items-center text-white'>
-          <p className='text-sm font-light'>04:30 PM</p>
-          <UilClouds size={30} className='my-1 w-12' />
-          <p className='font-medium'>22°</p>
-        </div>
-        <div className='flex flex-col items-center text-white'>
-          <p className='text-sm font-light'>04:30 PM</p>
-          <UilClouds size={30} className='my-1 w-12' />
-          <p className='font-medium'>22°</p>
-        </div>
-        <div className='flex flex-col items-center text-white'>
-          <p className='text-sm font-light'>04:30 PM</p>
-          <UilClouds size={30} className='my-1 w-12' />
-          <p className='font-medium'>22°</p>
-        </div>
-        <div className='flex flex-col items-center text-white'>
-          <p className='text-sm font-light'>04:30 PM</p>
-          <UilClouds size={30} className='my-1 w-12' />
-          <p className='font-medium'>22°</p>
-        </div>
-        <div className='flex flex-col items-center text-white'>
-          <p className='text-sm font-light'>04:30 PM</p>
-          <UilClouds size={30} className='my-1 w-12' />
-          <p className='font-medium'>22°</p>
-        </div>
+        {weatherData.map((elem, index) => (
+          <div
+            className='flex flex-col items-center text-white'
+            key={`hour-${index}`}
+          >
+            <p className='text-sm font-light'>{elem.title}</p>
+            <img src={getWeatherIcon(elem.icon)} alt='' className='my-1 w-12' />
+            <p className='font-medium'>{`${elem.temp.toFixed()}°`}</p>
+          </div>
+        ))}
       </div>
     </div>
   );
