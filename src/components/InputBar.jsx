@@ -31,11 +31,11 @@ const InputBar = ({
         />
       </div>
       <div className='flex w-1/4 flex-row items-center justify-center'>
-        <button name='metric' className='text-3xl font-normal text-white transition ease-out hover:scale-125'>
+        <button name='metric' className='text-3xl font-light text-white'>
           °C
         </button>
         <p className='mx-2 text-3xl text-white'>|</p>
-        <button name='imperial' className='text-3xl font-normal text-white transition ease-out hover:scale-125'>
+        <button name='imperial' className='text-3xl font-light text-white'>
           °F
         </button>
       </div>

@@ -16,7 +16,6 @@ const formatCurrWeather = (data) => {
     coord: { lat, lon },
     name,
     dt,
-    timezone,
     main: { temp, feels_like, temp_min, temp_max, pressure, humidity },
     weather,
     sys: { country, sunrise, sunset },
@@ -30,7 +29,6 @@ const formatCurrWeather = (data) => {
     lon,
     name,
     dt,
-    timezone,
     temp,
     feels_like,
     temp_min,
@@ -48,8 +46,7 @@ const formatCurrWeather = (data) => {
 
 const formatForecastData = (data) => {
   let { timezone } = data.city;
-  let hourly = data.list.slice(0, 5).map((i) => {
-    console.log(i.dt, timezone)
+  let hourly = data.list.slice(1, 6).map((i) => {
     return {
       title: formatToLocalTime(i.dt, timezone, 'hh:mm a'),
       temp: i.main.temp,
@@ -58,7 +55,7 @@ const formatForecastData = (data) => {
   });
 
   let daily = data.list
-    .filter((i) => i.dt_txt.includes('12:00:00'))
+    .filter((i) => i.dt_txt.includes('15:00:00'))
     .map((i) => {
       return {
         title: formatToLocalTime(i.dt, timezone, 'dd LLL'),
@@ -81,7 +78,7 @@ const getFormattedData = async (searchParams) => {
     lat,
     lon,
     units: searchParams.units,
-  }).then((data) => formatForecastData(data));
+  }).then(formatForecastData);
 
   return { ...formattedCurrWeather, ...formattedForecastData };
 };
@@ -92,7 +89,7 @@ const formatToLocalTime = (
   format = "cccc, dd LLL yyyy' | Local time: 'hh:mm a"
 ) => {
   return DateTime.fromSeconds(secs)
-    .setZone(zone/60)
+    .setZone(zone / 60)
     .toFormat(format);
 };
 

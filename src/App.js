@@ -93,7 +93,7 @@ function App() {
             title='3-HOUR FORECAST FOR TODAY'
             weatherData={weatherData.hourly}
           />
-          {/* <Forecast title='DAILY FORECAST' weatherData={weatherData.daily} /> */}
+          <Forecast title='DAILY FORECAST' weatherData={weatherData.daily} />
         </>
       )}
     </div>
