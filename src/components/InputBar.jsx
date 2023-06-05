@@ -21,7 +21,7 @@ const InputBar = ({ handleLocationChange, handleLocationSearch, handleUnitsChang
 
   const handleUnitsClick = (e) => {
     const selectedUnits = e.target.name;
-    handleUnitsChange(selectedUnits)
+    handleUnitsChange(selectedUnits);
   }
 
   return (

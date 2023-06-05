@@ -39,8 +39,16 @@ function App() {
     fetchWeather();
   }, [query, units]);
 
+  const formatBackground = () => {
+    const tempStep = units === 'metric' ? 24 : 75;
+    if (!weatherData) return 'from-cyan-700 to-blue-700';
+    return weatherData.temp <= tempStep
+      ? 'from-cyan-700 to-blue-700'
+      : 'from-yellow-700 to-orange-700';
+  };
+
   return (
-    <div className='mx-auto mt-4 h-fit max-w-screen-lg bg-gradient-to-br from-cyan-700 to-blue-700 px-32 py-5 shadow-xl shadow-gray-400'>
+    <div className={`mx-auto mt-4 h-fit max-w-screen-lg bg-gradient-to-br px-32 py-5 shadow-xl shadow-gray-400 ${formatBackground()}`}>
       <MainLocations handleLocationChange={handleLocationChange} />
       <InputBar
         handleLocationChange={handleLocationChange}
