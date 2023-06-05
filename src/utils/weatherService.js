@@ -16,6 +16,7 @@ const formatCurrWeather = (data) => {
     coord: { lat, lon },
     name,
     dt,
+    timezone,
     main: { temp, feels_like, temp_min, temp_max, pressure, humidity },
     weather,
     sys: { country, sunrise, sunset },
@@ -29,6 +30,7 @@ const formatCurrWeather = (data) => {
     lon,
     name,
     dt,
+    timezone,
     temp,
     feels_like,
     temp_min,
@@ -46,7 +48,7 @@ const formatCurrWeather = (data) => {
 
 const formatForecastData = (data) => {
   let { timezone } = data.city;
-  let hourly = data.list.slice(1, 6).map((i) => {
+  let hourly = data.list.slice(0, 5).map((i) => {
     return {
       title: formatToLocalTime(i.dt, timezone, 'hh:mm a'),
       temp: i.main.temp,

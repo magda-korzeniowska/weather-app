@@ -8,10 +8,9 @@ import {
   UilTemperature,
   UilWind,
 } from '@iconscout/react-unicons';
-import {formatToLocalTime, getWeatherIcon} from '../utils/weatherService';
+import { formatToLocalTime, getWeatherIcon } from '../utils/weatherService';
 
-const Weather = ({ weatherData }) => {
-
+const Weather = ({ weatherData, units }) => {
   const {
     details,
     icon,
@@ -23,8 +22,10 @@ const Weather = ({ weatherData }) => {
     sunset,
     temp_max,
     temp_min,
-    timezone
+    timezone,
   } = weatherData;
+
+  let speedUnit = units === 'metric' ? `${(speed * 3.6).toFixed()} km/h` : `${speed.toFixed()} miles/h`;
 
   return (
     <div>
@@ -38,7 +39,8 @@ const Weather = ({ weatherData }) => {
           <div className='flex flex-row'>
             <UilTemperature size={18} className='mr-1' />
             <p>
-              Real feel: <span className='font-medium'>{`${feels_like.toFixed()}°`}</span>
+              Real feel:{' '}
+              <span className='font-medium'>{`${feels_like.toFixed()}°`}</span>
             </p>
           </div>
           <div className='flex flex-row'>
@@ -50,7 +52,8 @@ const Weather = ({ weatherData }) => {
           <div className='flex flex-row'>
             <UilWind size={18} className='mr-1' />
             <p>
-              Wind: <span className='font-medium'>{`${speed.toFixed()} km/h`}</span>
+              Wind:{' '}
+              <span className='font-medium'>{speedUnit}</span>
             </p>
           </div>
         </div>
@@ -59,19 +62,26 @@ const Weather = ({ weatherData }) => {
         <div className='flex flex-row'>
           <UilSun size={18} className='mr-1' />
           <p>
-            Sunrise: <span className='font-medium'>{formatToLocalTime(sunrise, timezone, 'hh:mm a')}</span>
+            Sunrise:{' '}
+            <span className='font-medium'>
+              {formatToLocalTime(sunrise, timezone, 'hh:mm a')}
+            </span>
           </p>
         </div>
         <div className='flex flex-row'>
           <UilSunset size={18} className='mr-1' />
           <p>
-            Sunset: <span className='font-medium'>{formatToLocalTime(sunset, timezone, 'hh:mm a')}</span>
+            Sunset:{' '}
+            <span className='font-medium'>
+              {formatToLocalTime(sunset, timezone, 'hh:mm a')}
+            </span>
           </p>
         </div>
         <div className='flex flex-row'>
           <UilArrowUp size={18} className='mr-1' />
           <p>
-            High: <span className='font-medium'>{`${temp_max.toFixed()}°`}</span>
+            High:{' '}
+            <span className='font-medium'>{`${temp_max.toFixed()}°`}</span>
           </p>
         </div>
         <div className='flex flex-row'>
