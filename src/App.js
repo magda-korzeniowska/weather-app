@@ -5,7 +5,7 @@ import InputBar from './components/InputBar';
 import MainLocations from './components/MainLocations';
 import TimeAndLocation from './components/TimeAndLocation';
 import Weather from './components/Weather';
-import getFormattedData, { formatToLocalTime } from './utils/weatherService';
+import getFormattedData from './utils/weatherService';
 
 function App() {
   const [query, setQuery] = useState({ q: 'bydgoszcz' });
@@ -57,7 +57,6 @@ function App() {
             title='3-HOUR FORECAST FOR TODAY'
             weatherData={weatherData.hourly}
           />
-          {/* <Forecast title='DAILY FORECAST' weatherData={weatherData.daily} /> */}
         </>
       )}
     </div>

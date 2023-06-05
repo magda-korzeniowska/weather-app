@@ -56,17 +56,7 @@ const formatForecastData = (data) => {
     };
   });
 
-  let daily = data.list
-    .filter((i) => i.dt_txt.includes('15:00:00'))
-    .map((i) => {
-      return {
-        title: formatToLocalTime(i.dt, timezone, 'dd LLL'),
-        temp: i.main.temp,
-        icon: i.weather[0].icon,
-      };
-    });
-
-  return { timezone, hourly, daily };
+  return { timezone, hourly };
 };
 
 const getFormattedData = async (searchParams) => {
