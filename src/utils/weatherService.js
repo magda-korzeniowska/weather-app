@@ -1,4 +1,5 @@
 import { DateTime } from 'luxon';
+import { toast } from 'react-toastify';
 
 const apiBaseURL = process.env.REACT_APP_API_URL;
 const apiKey = process.env.REACT_APP_API_KEY;
@@ -6,9 +7,12 @@ const apiKey = process.env.REACT_APP_API_KEY;
 const getWeather = (dataType, searchParams) => {
   const url = new URL(`${apiBaseURL}/data/2.5/${dataType}`);
   url.search = new URLSearchParams({ ...searchParams, appid: apiKey });
-  return fetch(url)
-    .then((res) => res.json())
-    .catch((err) => err.message);
+  return fetch(url).then((res) => {
+    if (res.ok) return res.json();
+    else {
+      return res.json().then((data) => toast.error(data.message));
+    }
+  });
 };
 
 const formatCurrWeather = (data) => {
@@ -56,21 +60,23 @@ const formatForecastData = (data) => {
     };
   });
 
-  return { timezone, hourly };
+  return { hourly };
 };
 
 const getFormattedData = async (searchParams) => {
-  const formattedCurrWeather = await getWeather('weather', searchParams).then(
-    (data) => formatCurrWeather(data)
-  );
+  const weatherData = await getWeather('weather', searchParams);
+
+  const formattedCurrWeather = formatCurrWeather(weatherData);
 
   const { lat, lon } = formattedCurrWeather;
 
-  const formattedForecastData = await getWeather('forecast', {
+  const forecastData = await getWeather('forecast', {
     lat,
     lon,
     units: searchParams.units,
-  }).then(formatForecastData);
+  });
+
+  const formattedForecastData = formatForecastData(forecastData);
 
   return { ...formattedCurrWeather, ...formattedForecastData };
 };

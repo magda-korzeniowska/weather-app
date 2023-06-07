@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import Forecast from './components/Forecast';
 import InputBar from './components/InputBar';
@@ -11,6 +13,25 @@ function App() {
   const [query, setQuery] = useState({ q: 'bydgoszcz' });
   const [units, setUnits] = useState('metric');
   const [weatherData, setWeatherData] = useState(null);
+
+  useEffect(() => {
+    const fetchWeather = async () => {
+      const message = query.q || 'current location';
+      toast.info(`Fetching weather for ${message}`, { autoClose: 2000 });
+
+      const data = await getFormattedData({ ...query, units });
+      if (data) {
+        setWeatherData(data);
+        toast.success(
+          `Successfully fetched weather for ${data.name}, ${data.country}`
+        );
+      } else {
+        toast.error('Something went wrong')
+      }
+    };
+
+    fetchWeather();
+  }, [query, units]);
 
   const handleLocationChange = (location) => {
     setQuery({ q: location });
@@ -29,16 +50,6 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    const fetchWeather = async () => {
-      await getFormattedData({ ...query, units }).then((data) =>
-        setWeatherData(data)
-      );
-    };
-
-    fetchWeather();
-  }, [query, units]);
-
   const formatBackground = () => {
     const tempStep = units === 'metric' ? 24 : 75;
     if (!weatherData) return 'from-cyan-700 to-blue-700';
@@ -48,7 +59,9 @@ function App() {
   };
 
   return (
-    <div className={`mx-auto mt-4 h-fit max-w-screen-lg bg-gradient-to-br px-32 py-5 shadow-xl shadow-gray-400 ${formatBackground()}`}>
+    <div
+      className={`mx-auto mt-4 h-fit max-w-screen-lg bg-gradient-to-br px-32 py-5 shadow-xl shadow-gray-400 ${formatBackground()}`}
+    >
       <MainLocations handleLocationChange={handleLocationChange} />
       <InputBar
         handleLocationChange={handleLocationChange}
@@ -58,7 +71,6 @@ function App() {
 
       {weatherData && (
         <>
-          {console.log(weatherData)}
           <TimeAndLocation weatherData={weatherData} />
           <Weather weatherData={weatherData} units={units} />
           <Forecast
@@ -67,6 +79,7 @@ function App() {
           />
         </>
       )}
+      <ToastContainer autoClose={4000} newestOnTop theme='colored' />
     </div>
   );
 }
