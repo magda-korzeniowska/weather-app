@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
-import { UilMapMarker, UilSearch } from '@iconscout/react-unicons';
+import { toast } from 'react-toastify';
+import { UilFavorite, UilMapMarker, UilSearch } from '@iconscout/react-unicons';
+import { Tooltip } from 'flowbite-react';
 
-const InputBar = ({ handleLocationChange, handleLocationSearch, handleUnitsChange }) => {
-
+const InputBar = ({
+  handleLocationChange,
+  handleLocationSearch,
+  handleUnitsChange,
+}) => {
   const [location, setLocation] = useState('');
 
   const handleSearchClick = () => {
@@ -10,7 +15,7 @@ const InputBar = ({ handleLocationChange, handleLocationSearch, handleUnitsChang
       handleLocationChange(location);
       setLocation('');
     }
-  }
+  };
 
   const handleKeyDown = (e) => {
     if (location !== '' && e.key === 'Enter') {
@@ -22,11 +27,12 @@ const InputBar = ({ handleLocationChange, handleLocationSearch, handleUnitsChang
   const handleUnitsClick = (e) => {
     const selectedUnits = e.target.name;
     handleUnitsChange(selectedUnits);
-  }
+    toast.info('Changing units', { autoClose: 2000 });
+  };
 
   return (
     <div className='my-6 flex flex-row justify-center'>
-      <div className='flex w-3/4 flex-row items-center justify-center space-x-3'>
+      <div className='flex w-4/5 flex-row items-center justify-center space-x-3'>
         <input
           onKeyDown={handleKeyDown}
           type='text'
@@ -35,18 +41,32 @@ const InputBar = ({ handleLocationChange, handleLocationSearch, handleUnitsChang
           onChange={(e) => setLocation(e.target.value)}
           value={location}
         />
-        <UilSearch
-          size={40}
-          className='cursor-pointer text-white transition ease-out hover:scale-125'
-          onClick={handleSearchClick}
-        />
-        <UilMapMarker
-          size={40}
-          className='cursor-pointer text-white transition ease-out hover:scale-125'
-          onClick={handleLocationSearch}
-        />
+
+        <Tooltip content='Find location' style='light'>
+          <UilSearch
+            size={40}
+            className='cursor-pointer text-white transition ease-out hover:scale-125'
+            onClick={handleSearchClick}
+          />
+        </Tooltip>
+
+        <Tooltip content='Find current location' style='light'>
+          <UilMapMarker
+            size={40}
+            className='cursor-pointer text-white transition ease-out hover:scale-125'
+            onClick={handleLocationSearch}
+          />
+        </Tooltip>
+
+        <Tooltip content='Add to favorites' style='light'>
+          <UilFavorite
+            size={40}
+            className='cursor-pointer text-white transition ease-out hover:scale-125'
+            // onClick={handleLocationSearch}
+          />
+        </Tooltip>
       </div>
-      <div className='flex w-1/4 flex-row items-center justify-center'>
+      <div className='flex w-1/5 flex-row items-center justify-end'>
         <button
           name='metric'
           className='text-3xl text-white transition ease-out hover:scale-125'
