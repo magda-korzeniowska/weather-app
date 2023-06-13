@@ -42,7 +42,7 @@ const InputBar = ({
           value={location}
         />
 
-        <Tooltip content='Find location' style='light'>
+        <Tooltip content='Find location' style='light' animation='duration-500'>
           <UilSearch
             size={40}
             className='cursor-pointer text-white transition ease-out hover:scale-125'
@@ -50,7 +50,11 @@ const InputBar = ({
           />
         </Tooltip>
 
-        <Tooltip content='Find current location' style='light'>
+        <Tooltip
+          content='Find current location'
+          style='light'
+          animation='duration-500'
+        >
           <UilMapMarker
             size={40}
             className='cursor-pointer text-white transition ease-out hover:scale-125'
@@ -58,7 +62,11 @@ const InputBar = ({
           />
         </Tooltip>
 
-        <Tooltip content='Add to favorites' style='light'>
+        <Tooltip
+          content='Add to favorites'
+          style='light'
+          animation='duration-500'
+        >
           <UilFavorite
             size={40}
             className='cursor-pointer text-white transition ease-out hover:scale-125'
