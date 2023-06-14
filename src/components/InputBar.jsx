@@ -61,7 +61,7 @@ const InputBar = ({
             onClick={handleLocationSearch}
           />
         </Tooltip>
-
+{/* 
         <Tooltip
           content='Add to favorites'
           style='light'
@@ -72,7 +72,7 @@ const InputBar = ({
             className='cursor-pointer text-white transition ease-out hover:scale-125'
             // onClick={handleLocationSearch}
           />
-        </Tooltip>
+        </Tooltip> */}
       </div>
       <div className='flex w-1/5 flex-row items-center justify-end'>
         <button

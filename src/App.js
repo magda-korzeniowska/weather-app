@@ -26,7 +26,7 @@ function App() {
           `Successfully fetched weather for ${data.name}, ${data.country}`
         );
       } else {
-        toast.error('Something went wrong')
+        toast.error('Something went wrong');
       }
     };
 
@@ -62,15 +62,17 @@ function App() {
     <div
       className={`mx-auto mt-4 h-fit max-w-screen-lg bg-gradient-to-br px-32 py-5 shadow-xl shadow-gray-400 ${formatBackground()}`}
     >
-      <MainLocations handleLocationChange={handleLocationChange} />
-      <InputBar
-        handleLocationChange={handleLocationChange}
-        handleLocationSearch={handleLocationSearch}
-        handleUnitsChange={handleUnitsChange}
-      />
-
       {weatherData && (
         <>
+          <MainLocations
+            weatherData={weatherData}
+            handleLocationChange={handleLocationChange}
+          />
+          <InputBar
+            handleLocationChange={handleLocationChange}
+            handleLocationSearch={handleLocationSearch}
+            handleUnitsChange={handleUnitsChange}
+          />
           <TimeAndLocation weatherData={weatherData} />
           <Weather weatherData={weatherData} units={units} />
           <Forecast
