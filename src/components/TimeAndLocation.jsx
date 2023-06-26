@@ -4,7 +4,7 @@ import { Tooltip } from 'flowbite-react';
 
 import { formatToLocalTime } from '../utils/weatherService';
 
-const TimeAndLocation = ({ weatherData }) => {
+const TimeAndLocation = ({ weatherData, handleClick }) => {
   const { dt, timezone, name, country } = weatherData;
   return (
     <div className='my-6 flex flex-col items-center justify-center'>
@@ -24,7 +24,7 @@ const TimeAndLocation = ({ weatherData }) => {
             <UilFavorite
               size={40}
               className='cursor-pointer text-white transition ease-out hover:scale-125'
-              // onClick={handleLocationSearch}
+              onClick={handleClick}
             />
           </Tooltip>
         </div>

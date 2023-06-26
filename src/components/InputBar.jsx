@@ -61,7 +61,7 @@ const InputBar = ({
             onClick={handleLocationSearch}
           />
         </Tooltip>
-{/* 
+        {/* 
         <Tooltip
           content='Add to favorites'
           style='light'

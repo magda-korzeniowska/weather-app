@@ -13,6 +13,7 @@ function App() {
   const [query, setQuery] = useState({ q: 'bydgoszcz' });
   const [units, setUnits] = useState('metric');
   const [weatherData, setWeatherData] = useState(null);
+  const [favourites, setFavourites] = useState([]);
 
   useEffect(() => {
     const fetchWeather = async () => {
@@ -58,6 +59,40 @@ function App() {
       : 'from-yellow-700 to-orange-700';
   };
 
+  const handleAddFavouriteClick = () => {
+    let newFavouriteList;
+    if (favourites.some((favourite) => favourite.name === weatherData.name)) {
+      newFavouriteList = [...favourites];
+      toast.error(`Location already added to a list of favourites`, {
+        autoClose: 2000,
+      });
+    } else if (favourites.length >= 5) {
+      newFavouriteList = [...favourites];
+      toast.error(`Remove any location from favourites to add a new one`, {
+        autoClose: 2000,
+      });
+    } else {
+      newFavouriteList = [
+        ...favourites,
+        { name: weatherData.name, country: weatherData.country },
+      ];
+    }
+
+    // const newFavouriteList =
+    //   favourites.some((favourite) => favourite.name === weatherData.name) ||
+    //   favourites.length >= 5
+    //     ? [...favourites]
+    //     : [
+    //         ...favourites,
+    //         { name: weatherData.name, country: weatherData.country },
+    //       ];
+    setFavourites(newFavouriteList);
+    localStorage.setItem(
+      'react-weather-app-favourites',
+      JSON.stringify(newFavouriteList)
+    );
+  };
+
   return (
     <div
       className={`mx-auto mt-4 h-fit max-w-screen-lg bg-gradient-to-br px-32 py-5 shadow-xl shadow-gray-400 ${formatBackground()}`}
@@ -66,6 +101,8 @@ function App() {
         <>
           <MainLocations
             weatherData={weatherData}
+            favourites={favourites}
+            setFavourites={setFavourites}
             handleLocationChange={handleLocationChange}
           />
           <InputBar
@@ -73,7 +110,10 @@ function App() {
             handleLocationSearch={handleLocationSearch}
             handleUnitsChange={handleUnitsChange}
           />
-          <TimeAndLocation weatherData={weatherData} />
+          <TimeAndLocation
+            weatherData={weatherData}
+            handleClick={handleAddFavouriteClick}
+          />
           <Weather weatherData={weatherData} units={units} />
           <Forecast
             title='3-HOUR FORECAST FOR TODAY'
