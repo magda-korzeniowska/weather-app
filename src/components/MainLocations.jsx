@@ -1,57 +1,64 @@
 import React, { useEffect } from 'react';
 import { UilTrashAlt } from '@iconscout/react-unicons';
+import { Tooltip } from 'flowbite-react';
 import favLocations from '../data/locations.json';
 
 const MainLocations = ({
   handleLocationChange,
   weatherData,
-  favourites,
-  setFavourites,
+  favorites,
+  setFavorites,
 }) => {
   const saveToLocalStorage = (location) => {
     localStorage.setItem(
-      'react-weather-app-favourites',
+      'react-weather-app-favorites',
       JSON.stringify(location)
     );
   };
 
   useEffect(() => {
-    const locationFavourites = JSON.parse(
-      localStorage.getItem('react-weather-app-favourites')
+    const locationFavorites = JSON.parse(
+      localStorage.getItem('react-weather-app-favorites')
     );
-    if (locationFavourites && locationFavourites.length !== 0) {
-      setFavourites(locationFavourites);
-      console.log('useEffect', locationFavourites);
+    if (locationFavorites && locationFavorites.length !== 0) {
+      setFavorites(locationFavorites);
+      console.log('useEffect', locationFavorites);
     } else {
-      setFavourites(favLocations);
+      setFavorites(favLocations);
       saveToLocalStorage(favLocations);
     }
   }, []);
 
-  const removeFavouriteLocation = (location) => {
-    const newFavouriteList = favourites.filter(
-      (favourite) => favourite.name !== location.name
+  const removeFavoriteLocation = (location) => {
+    const newFavoriteList = favorites.filter(
+      (favorite) => favorite.name !== location.name
     );
-    console.log('remove', newFavouriteList);
-    setFavourites(newFavouriteList);
-    saveToLocalStorage(newFavouriteList);
+    console.log('remove', newFavoriteList);
+    setFavorites(newFavoriteList);
+    saveToLocalStorage(newFavoriteList);
   };
 
   return (
     <div className='my-6 flex items-center justify-around'>
-      {favourites?.map((favourite, i) => (
-        <div key={i}>
+      {favorites?.map((favorite, i) => (
+        <div key={i} className='flex items-center justify-around'>
           <button
-            onClick={() => handleLocationChange(favourite.name)}
-            className='text-lg font-medium text-white'
+            onClick={() => handleLocationChange(favorite.name)}
+            className='text-lg font-medium text-white mr-2'
           >
-            {favourite.name}, {favourite.country}
+            {favorite.name}, {favorite.country}
           </button>
-          <UilTrashAlt
-            size={20}
-            className='mx-auto cursor-pointer text-white transition ease-out hover:scale-125'
-            onClick={() => removeFavouriteLocation(favourite)}
-          />
+          <Tooltip
+            content='Remove from favorites'
+            style='light'
+            animation='duration-500'
+          >
+            <UilTrashAlt
+              size={15}
+              className='mx-auto cursor-pointer text-white transition ease-out hover:scale-125'
+              onClick={() => removeFavoriteLocation(favorite)}
+            />
+          </Tooltip>
         </div>
       ))}
     </div>

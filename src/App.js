@@ -13,7 +13,7 @@ function App() {
   const [query, setQuery] = useState({ q: 'bydgoszcz' });
   const [units, setUnits] = useState('metric');
   const [weatherData, setWeatherData] = useState(null);
-  const [favourites, setFavourites] = useState([]);
+  const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
     const fetchWeather = async () => {
@@ -59,21 +59,21 @@ function App() {
       : 'from-yellow-700 to-orange-700';
   };
 
-  const handleAddFavouriteClick = () => {
-    let newFavouriteList;
-    if (favourites.some((favourite) => favourite.name === weatherData.name)) {
-      newFavouriteList = [...favourites];
-      toast.error(`Location already added to a list of favourites`, {
+  const handleAddFavoriteClick = () => {
+    let newFavoriteList;
+    if (favorites.some((favorite) => favorite.name === weatherData.name)) {
+      newFavoriteList = [...favorites];
+      toast.error(`Location already added to a list of favorites`, {
         autoClose: 2000,
       });
-    } else if (favourites.length >= 5) {
-      newFavouriteList = [...favourites];
-      toast.error(`Remove any location from favourites to add a new one`, {
+    } else if (favorites.length >= 5) {
+      newFavoriteList = [...favorites];
+      toast.error(`Remove any location from favorites to add a new one`, {
         autoClose: 2000,
       });
     } else {
-      newFavouriteList = [
-        ...favourites,
+      newFavoriteList = [
+        ...favorites,
         { name: weatherData.name, country: weatherData.country },
       ];
     }
@@ -86,10 +86,10 @@ function App() {
     //         ...favourites,
     //         { name: weatherData.name, country: weatherData.country },
     //       ];
-    setFavourites(newFavouriteList);
+    setFavorites(newFavoriteList);
     localStorage.setItem(
-      'react-weather-app-favourites',
-      JSON.stringify(newFavouriteList)
+      'react-weather-app-favorites',
+      JSON.stringify(newFavoriteList)
     );
   };
 
@@ -101,8 +101,8 @@ function App() {
         <>
           <MainLocations
             weatherData={weatherData}
-            favourites={favourites}
-            setFavourites={setFavourites}
+            favorites={favorites}
+            setFavorites={setFavorites}
             handleLocationChange={handleLocationChange}
           />
           <InputBar
@@ -112,7 +112,7 @@ function App() {
           />
           <TimeAndLocation
             weatherData={weatherData}
-            handleClick={handleAddFavouriteClick}
+            handleClick={handleAddFavoriteClick}
           />
           <Weather weatherData={weatherData} units={units} />
           <Forecast
