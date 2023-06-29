@@ -10,28 +10,34 @@ import Weather from './components/Weather';
 import getFormattedData from './utils/weatherService';
 
 function App() {
-  const [query, setQuery] = useState({ q: 'bydgoszcz' });
+  const [query, setQuery] = useState({});
   const [units, setUnits] = useState('metric');
   const [weatherData, setWeatherData] = useState(null);
   const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
-    const fetchWeather = async () => {
+    handleLocationSearch();
+  }, []);
+
+  useEffect(() => {
+    if (Object.keys(query).length !== 0) {
+      const fetchWeather = async () => {
+        const data = await getFormattedData({ ...query, units });
+        if (data) {
+          setWeatherData(data);
+        }
+      };
+
       const message = query.q || 'current location';
-      toast.info(`Fetching weather for ${message}`, { autoClose: 2000 });
 
-      const data = await getFormattedData({ ...query, units });
-      if (data) {
-        setWeatherData(data);
-        toast.success(
-          `Successfully fetched weather for ${data.name}, ${data.country}`
-        );
-      } else {
-        toast.error('Something went wrong');
-      }
-    };
+      toast.promise(fetchWeather, {
+        pending: `Fetching weather for ${message}`,
+        success: `Successfully fetched weather for ${message}`,
+        error: 'Something went wrong',
+      });
 
-    fetchWeather();
+      fetchWeather();
+    }
   }, [query, units]);
 
   const handleLocationChange = (location) => {
@@ -63,12 +69,12 @@ function App() {
     let newFavoriteList;
     if (favorites.some((favorite) => favorite.name === weatherData.name)) {
       newFavoriteList = [...favorites];
-      toast.error(`Location already added to a list of favorites`, {
+      toast.warning(`Location already added to a list of favorites`, {
         autoClose: 2000,
       });
     } else if (favorites.length >= 5) {
       newFavoriteList = [...favorites];
-      toast.error(`Remove any location from favorites to add a new one`, {
+      toast.warning(`Remove any location from favorites to add a new one`, {
         autoClose: 2000,
       });
     } else {
@@ -77,15 +83,6 @@ function App() {
         { name: weatherData.name, country: weatherData.country },
       ];
     }
-
-    // const newFavouriteList =
-    //   favourites.some((favourite) => favourite.name === weatherData.name) ||
-    //   favourites.length >= 5
-    //     ? [...favourites]
-    //     : [
-    //         ...favourites,
-    //         { name: weatherData.name, country: weatherData.country },
-    //       ];
     setFavorites(newFavoriteList);
     localStorage.setItem(
       'react-weather-app-favorites',

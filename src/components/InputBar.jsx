@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-import { UilFavorite, UilMapMarker, UilSearch } from '@iconscout/react-unicons';
+import { UilMapMarker, UilSearch } from '@iconscout/react-unicons';
 import { Tooltip } from 'flowbite-react';
 
 const InputBar = ({

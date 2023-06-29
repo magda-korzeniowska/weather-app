@@ -12,7 +12,7 @@ const TimeAndLocation = ({ weatherData, handleClick }) => {
         {formatToLocalTime(dt, timezone)}
       </p>
       <div className='flex items-center justify-center'>
-        <p className='my-3 text-4xl font-medium text-white mr-8'>
+        <p className='my-3 mr-8 text-4xl font-medium text-white'>
           {name}, {country}
         </p>
         <div>

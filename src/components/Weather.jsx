@@ -25,7 +25,10 @@ const Weather = ({ weatherData, units }) => {
     timezone,
   } = weatherData;
 
-  let speedUnit = units === 'metric' ? `${(speed * 3.6).toFixed()} km/h` : `${speed.toFixed()} miles/h`;
+  let speedUnit =
+    units === 'metric'
+      ? `${(speed * 3.6).toFixed()} km/h`
+      : `${speed.toFixed()} miles/h`;
 
   return (
     <div>
@@ -52,8 +55,7 @@ const Weather = ({ weatherData, units }) => {
           <div className='flex flex-row'>
             <UilWind size={18} className='mr-1' />
             <p>
-              Wind:{' '}
-              <span className='font-medium'>{speedUnit}</span>
+              Wind: <span className='font-medium'>{speedUnit}</span>
             </p>
           </div>
         </div>

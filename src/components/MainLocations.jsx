@@ -44,7 +44,7 @@ const MainLocations = ({
         <div key={i} className='flex items-center justify-around'>
           <button
             onClick={() => handleLocationChange(favorite.name)}
-            className='text-lg font-medium text-white mr-2'
+            className='mr-2 text-lg font-medium text-white'
           >
             {favorite.name}, {favorite.country}
           </button>
@@ -55,7 +55,7 @@ const MainLocations = ({
           >
             <UilTrashAlt
               size={15}
-              className='mx-auto cursor-pointer text-white transition ease-out hover:scale-125'
+              className='mx-auto cursor-pointer text-white transition ease-out hover:scale-150'
               onClick={() => removeFavoriteLocation(favorite)}
             />
           </Tooltip>
